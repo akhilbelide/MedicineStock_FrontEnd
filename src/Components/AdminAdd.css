@@ -1,0 +1,43 @@
+.NameDiv{
+    width:100%;
+    display: flex;
+    background-color: coral;
+}
+
+.UnitsDiv{
+    width:100%;
+    display: flex;   
+    background-color: cornflowerblue;
+}
+
+.lbl1{
+    width:50%;
+    padding:2%;
+    margin:2%;
+}
+
+.inp1{
+    width:50%;
+    padding:2%;
+    margin:2%;
+}
+
+.lbl2{
+    width:50%;
+    padding:2%;
+    margin:2%;
+}
+
+.inp2{
+    width: 50%;
+    padding:2%;
+    margin:2%;
+}
+
+.SubmitDiv{
+    width: 100%;
+    padding:3%;
+    margin-top:3%;
+    text-align: center;
+    border: 1px solid black;
+}

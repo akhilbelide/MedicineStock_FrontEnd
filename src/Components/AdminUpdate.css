@@ -1,0 +1,50 @@
+.SearchDiv{
+    margin:5%;
+}
+
+
+.MainBox{
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    margin: 0;
+}
+
+.UpdateBox{
+    display: flex;
+    width: 30%;
+    padding:5px;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.NameBox{
+    display: flex;
+    width: 70%;
+    padding:5px;
+}
+
+.Plus{
+    border: 1px solid black;
+    padding-left: 2px;
+    padding-right: 2px;
+    width:15%;
+}
+
+.Sub{
+    border: 1px solid black;
+    padding-left: 2px;
+    padding-right: 2px;
+    width:15%;
+}
+
+.InputField{
+   width:50%;
+}
+
+.ButtonDiv{
+    width:100%;
+    padding:10px;
+    position: fixed; 
+    bottom:0%;
+}
