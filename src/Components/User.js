@@ -73,30 +73,6 @@ class User extends Component{
 
     }
 
-
-    onValueChange=(index)=>(e)=>{
-       
-        let newdata=[...this.state.data]
-        newdata[index].units=parseInt(e.target.value)
-
-        let updateddata=[...this.state.updated]
-        let flag=0
-
-        for(let i=0;i<updateddata.length;i++){
-            if(updateddata[i].name===newdata[index].name){
-                updateddata[i].units=parseInt(e.target.value)
-                flag=1
-                break
-            }
-        }
-        if(flag===0){
-            updateddata.push(newdata[index])
-        }
-
-        this.setState({data:newdata , updated:updateddata})
-    }
-
-
     render(){
         const {name, units} = this.state
         return(
@@ -116,8 +92,8 @@ class User extends Component{
                                 <div  className='Sub' onClick={()=>{this.removefromUpdate(index)}}>
                                     -
                                 </div>
-                                <div className='TextBox'>
-                                    <input type="number" name='quantity' value={i.units} className='InputField' onChange={this.onValueChange(index)}/>
+                                <div className='Units'>
+                                   {i.units}
                                 </div>
                             </div>
                         </div>
