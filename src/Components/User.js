@@ -3,6 +3,7 @@ import {withRouter} from 'react-router-dom'
 import './User.css'
 import {hosturl} from '../config'
 import Modal from './Modal'
+import { AiOutlineArrowDown, AiOutlineArrowUp } from 'react-icons/ai';
 
 class User extends Component{
 
@@ -111,7 +112,7 @@ class User extends Component{
                             <div className='NameBox'>{i.name}</div>
                             <div className='UpdateBox'>
                                 <div  className='Sub' onClick={()=>{this.removefromUpdate(index)}}>
-                                    -
+                                    <AiOutlineArrowDown/>
                                 </div>
                                 <div className='Units'>
                                    {i.units}

@@ -62,13 +62,14 @@
 }
 
 .ButtonDiv{
-    width:100%;
+    width:20%;
     padding:10px;
     position: fixed; 
-    bottom:0%;
+    bottom:5%;
     border:1px solid cornflowerblue;
     color: coral;
     font-family: 'Times New Roman', Times, serif;
     font-weight: bold;
     font-size: larger;
+    margin-left: 40%;
 }
