@@ -2,21 +2,27 @@ import React,{Component} from 'react'
 import {withRouter} from 'react-router-dom'
 import './AdminUpdate.css'
 import {hosturl} from '../config'
-
+import Modal from './Modal'
+ import { AiOutlineArrowDown, AiOutlineArrowUp } from 'react-icons/ai';
 class AdminUpdate extends Component{
 
     constructor(props) {
         super(props)
         this.state = {
             data:[],
-            updated:[]
+            updated:[],
+            show:false
         }
+    }
+
+    handleModal=()=>{  
+        this.setState({...this.state, show:!this.state.show})  
     }
 
     componentDidMount(){
         fetch(hosturl + '/admin/get')
         .then(resp => resp.json())
-        .then(data => this.setState({data: data.data}))
+        .then(data => this.setState({...this.state,data: data.data}))
         .catch(err => console.log(err))
     }
 
@@ -31,7 +37,10 @@ class AdminUpdate extends Component{
                   data:this.state.updated
               })
         })
-        .then(resp => console.log(resp.json()))
+        .then(resp => {
+            this.handleModal()
+            console.log(resp.json())
+        })
     }
 
     addtoUpdate=(index)=>{
@@ -51,7 +60,7 @@ class AdminUpdate extends Component{
             newdata[index].units+=1
             updateddata.push(newdata[index])
         }
-        this.setState({data:newdata,updated:updateddata})
+        this.setState({...this.state,data:newdata,updated:updateddata})
     }
 
     removefromUpdate=(index)=>{
@@ -62,16 +71,22 @@ class AdminUpdate extends Component{
         for(let i=0;i<updateddata.length;i++){
             if(updateddata[i].name===newdata[index].name){
                 updateddata[i].units-=1
+                if(updateddata[i].units<=0){
+                    updateddata[i].units=0
+                }
                 flag=1
                 break
             }
         }
         if(flag===0){
             newdata[index].units-=1
+            if(newdata[index].units<=0){
+                newdata[index].units=0
+            }
             updateddata.push(newdata[index])
         }
 
-        this.setState({data:newdata, updated:updateddata})
+        this.setState({...this.state,data:newdata, updated:updateddata})
     }
 
     searchHandler=(e)=>{
@@ -87,7 +102,7 @@ class AdminUpdate extends Component{
               })
         })
         .then(resp => resp.json())
-        .then(data => this.setState({data: data.data}))
+        .then(data => this.setState({...this.state,data: data.data}))
         .catch(err => console.log(err))
 
     }
@@ -112,7 +127,7 @@ class AdminUpdate extends Component{
             updateddata.push(newdata[index])
         }
 
-        this.setState({data:newdata , updated:updateddata})
+        this.setState({...this.state,data:newdata , updated:updateddata})
     }
 
 
@@ -122,8 +137,16 @@ class AdminUpdate extends Component{
             <div className='PageUpdate'>
                 {
                     <div className='SearchDiv'>  
-                        <input type='text' name='search' onChange={this.searchHandler} placeholder="Search here"/>
+                        <input className='SearchBox' type='text' name='search' onChange={this.searchHandler} placeholder="Search here"/>
                     </div>
+                }
+
+                {this.state.show && 
+                <Modal onClose={()=>{this.handleModal()}}>
+                    
+                        Updated Successfully!!!
+                    
+                </Modal>
                 }
 
                 {
@@ -134,13 +157,13 @@ class AdminUpdate extends Component{
 
                             <div className='UpdateBox'>
                                 <div className='Sub' onClick={()=>{this.removefromUpdate(index)}}>
-                                    -
+                                    <AiOutlineArrowDown/>
                                 </div>
                                 <div className='TextBox'>
                                     <input type="number" name='quantity' value={i.units} onChange={this.onValueChange(index)} className='InputField'/>
                                 </div>
                                 <div className='Plus' onClick={()=>{this.addtoUpdate(index)}}>
-                                    +
+                                    <AiOutlineArrowUp/>
                                 </div>
                             </div>
                         </div>

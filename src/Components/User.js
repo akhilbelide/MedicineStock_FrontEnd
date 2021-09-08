@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import {withRouter} from 'react-router-dom'
 import './User.css'
 import {hosturl} from '../config'
-
+import Modal from './Modal'
 
 class User extends Component{
 
@@ -10,14 +10,19 @@ class User extends Component{
         super(props)
         this.state = {
             data:[],
-            updated:[]
+            updated:[],
+            show:false
         }
+    }
+
+    handleModal=()=>{  
+        this.setState({...this.state, show:!this.state.show})  
     }
 
     componentDidMount(){
         fetch(hosturl + '/user/get')
         .then(resp => resp.json())
-        .then(data => this.setState({data: data.data}))
+        .then(data => this.setState({...this.state,data: data.data}))
         .catch(err => console.log(err))
     }
 
@@ -32,7 +37,10 @@ class User extends Component{
                   data:this.state.updated
               })
         })
-        .then(resp => console.log(resp.json()))
+        .then(resp => {
+            this.handleModal()
+            console.log(resp.json())
+        })
     }
 
     removefromUpdate=(index)=>{
@@ -43,16 +51,23 @@ class User extends Component{
         for(let i=0;i<updateddata.length;i++){
             if(updateddata[i].name===newdata[index].name){
                 updateddata[i].units-=1
+                if(updateddata[i].units<=0){
+                    updateddata[i].units=0
+                }
                 flag=1
                 break
             }
         }
         if(flag===0){
             newdata[index].units-=1
+            if(newdata[index].units<=0){
+                newdata[index].units=0
+            }
             updateddata.push(newdata[index])
         }
 
-        this.setState({data:newdata, updated:updateddata})
+        //this.setState({data:newdata, updated:updateddata})
+        this.setState({...this.state,data:newdata, updated:updateddata})
     }
 
     searchHandler=(e)=>{
@@ -68,7 +83,7 @@ class User extends Component{
               })
         })
         .then(resp => resp.json())
-        .then(data => this.setState({data: data.data}))
+        .then(data => this.setState({...this.state,data: data.data}))
         .catch(err => console.log(err))
 
     }
@@ -82,7 +97,13 @@ class User extends Component{
                         <input type='text' name='search' placeholder="Search here" onChange={this.searchHandler}/>
                     </div>
                 }
-
+                {this.state.show && 
+                <Modal onClose={()=>{this.handleModal()}}>
+                    
+                        Updated Successfully!!!
+                    
+                </Modal>
+                }
                 {
                     this.state.data.map((i,index) => 
                         (

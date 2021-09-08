@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import {withRouter} from 'react-router-dom'
 import {hosturl} from '../config'
 import './AdminAdd.css'
+import Modal from './Modal'
 
 class AdminAdd extends Component{
 
@@ -9,12 +10,21 @@ class AdminAdd extends Component{
         super(props)
         this.state = {
             name:'',
-            units:''
+            units:'',
+            show:false
         }
     }
-       
+    
+    handleModal=()=>{  
+        this.setState({...this.state, show:!this.state.show})  
+    }
+
     onChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value });
+        this.setState({ ...this.state,[e.target.name]: e.target.value });
+    }
+
+    clearFields=()=>{
+        this.setState({...this.state,name:'',units:0})
     }
 
     onSubmit = () => {
@@ -27,8 +37,10 @@ class AdminAdd extends Component{
             body: JSON.stringify(this.state)
         };
         fetch( hosturl + '/admin/add', requestOptions)
-        .then(console.log('success'))
-
+        .then(resp => {
+            this.handleModal()
+            this.clearFields()
+        })
       }
     
     render(){
@@ -44,6 +56,14 @@ class AdminAdd extends Component{
                     </div>
                 </div>              
                 
+                {this.state.show && 
+                <Modal onClose={()=>{this.handleModal()}}>
+                   
+                        Added Successfully!!!
+                    
+                </Modal>
+                }
+
                 <div className='UnitsDiv'>
                     <div className='lbl2'> 
                         <label>No. of units</label>
