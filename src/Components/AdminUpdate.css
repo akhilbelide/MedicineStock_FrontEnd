@@ -1,3 +1,9 @@
+.BorderBox{
+    border-color: coral;
+    border-style: solid;
+    border-radius: 2px;
+}
+
 .SearchDiv{
     margin-top: 5%;
 }
@@ -13,8 +19,29 @@
     height: 50px;
 }
 
+.SubBox{
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    margin-top: 2px;
+    height: 25px;
+}
+
 .UpdateBox{
     display: flex;
+    width: 30%;
+    padding:5px;
+    margin-left: 5%;
+    margin-right: 5%;
+    box-sizing: border-box;
+    border-radius: 5%;
+    border:1px  black;
+}
+
+.UpdateInSubBox{
+    display: flex;
+    text-align: center;
+    justify-content:center;
     width: 30%;
     padding:5px;
     margin-left: 5%;
@@ -32,6 +59,14 @@
     font-family: 'Times New Roman', Times, serif;
     font-weight: bold;
     font-size: larger;
+    align-self: center;
+}
+
+.NameSubBox{
+    display: flex;
+    width: 70%;
+    text-orientation: sideways;
+    font-family: 'Times New Roman', Times, serif;
     align-self: center;
 }
 

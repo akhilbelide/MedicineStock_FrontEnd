@@ -11,6 +11,7 @@ class AdminAdd extends Component{
         this.state = {
             name:'',
             units:'',
+            price:'',
             show:false
         }
     }
@@ -24,7 +25,7 @@ class AdminAdd extends Component{
     }
 
     clearFields=()=>{
-        this.setState({...this.state,name:'',units:0})
+        this.setState({...this.state,name:'',units:0, price:''})
     }
 
     onSubmit = () => {
@@ -44,7 +45,7 @@ class AdminAdd extends Component{
       }
     
     render(){
-        const {name, units}=this.state
+        const {name, units, price}=this.state
         return(
             <div className='PageAdd'>  
                 <div className='NameDiv'> 
@@ -70,6 +71,15 @@ class AdminAdd extends Component{
                     </div>
                     <div className='inp2'> 
                         <input type="text" name="units" value={units} onChange={this.onChange}/>
+                    </div>
+                </div>
+
+                <div className='PriceDiv'>
+                    <div className='lbl3'> 
+                        <label>Price</label>
+                    </div>
+                    <div className='inp3'> 
+                        <input type="text" name="price" value={price} onChange={this.onChange}/>
                     </div>
                 </div>
                 

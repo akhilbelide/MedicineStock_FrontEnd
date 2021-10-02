@@ -5,6 +5,7 @@ import AdminAdd from './Components/AdminAdd'
 import AdminUpdate from './Components/AdminUpdate'
 import User from './Components/User'
 import Admin from './Components/Admin';
+import AdminSummary from './Components/AdminSummary'
 
 class App extends Component{
   render(){
@@ -12,10 +13,11 @@ class App extends Component{
       <BrowserRouter>
         <div className="App">          
              <Switch>
-             <Route exact path='/admin/add' component={AdminAdd}/>            
+             <Route exact path='/admin/add' component={AdminAdd}/>  
+             <Route exact path='/admin/summary' component={AdminSummary}/>           
              <Route exact path='/admin/update' component={AdminUpdate}/> 
              <Route exact path='/admin' component={Admin}/> 
-             <Route exact path='/' component={User}/>           
+             <Route exact path='/' component={User}/>             
              </Switch>
         </div>
       </BrowserRouter>

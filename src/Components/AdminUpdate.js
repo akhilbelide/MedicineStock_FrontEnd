@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {withRouter} from 'react-router-dom'
+import {withRouter,Redirect} from 'react-router-dom'
 import './AdminUpdate.css'
 import {hosturl} from '../config'
 import Modal from './Modal'
@@ -22,12 +22,18 @@ class AdminUpdate extends Component{
     componentDidMount(){
         fetch(hosturl + '/admin/get')
         .then(resp => resp.json())
-        .then(data => this.setState({...this.state,data: data.data}))
+        .then(data => {
+            data.data.forEach(element => {
+                element.prevStock=element.units
+            })
+            console.log(data.data)
+            this.setState({...this.state,data: data.data})
+        })
         .catch(err => console.log(err))
     }
 
     onSubmit(){
-
+        let totalPrice=0;
         fetch(hosturl + '/admin/update',{
             method:'POST',
             headers: {
@@ -39,8 +45,16 @@ class AdminUpdate extends Component{
         })
         .then(resp => {
             this.handleModal()
-            console.log(resp.json())
+            console.log('response after submit',resp.json())
+            this.state.updated.map((i,index)=>{
+                console.log(i)
+                totalPrice=totalPrice+(i.prevStock-i.units+i.newStock)*i.price
+            })
+        }).then(tc => {
+            console.log(totalPrice)
+            this.props.history.push('/admin/summary',{upd:this.state.updated, totalPrice: totalPrice})
         })
+        
     }
 
     addtoUpdate=(index)=>{
@@ -61,6 +75,7 @@ class AdminUpdate extends Component{
             updateddata.push(newdata[index])
         }
         this.setState({...this.state,data:newdata,updated:updateddata})
+        console.log(this.state)
     }
 
     removefromUpdate=(index)=>{
@@ -130,9 +145,31 @@ class AdminUpdate extends Component{
         this.setState({...this.state,data:newdata , updated:updateddata})
     }
 
+    onNewStockChange=(index)=>(e)=>{
+
+        let newdata=[...this.state.data]
+        newdata[index].newStock=parseInt(e.target.value)
+
+        let updateddata=[...this.state.updated]
+        let flag=0
+
+        for(let i=0;i<updateddata.length;i++){
+            if(updateddata[i].name===newdata[index].name){
+                updateddata[i].newStock=parseInt(e.target.value)
+                flag=1
+                break
+            }
+        }
+        if(flag===0){
+            updateddata.push(newdata[index])
+        }
+
+        this.setState({...this.state,data:newdata , updated:updateddata})
+    }
+
 
     render(){
-        const {name, units} = this.state
+        const {name, units, prevStock} = this.state
         return(
             <div className='PageUpdate'>
                 {
@@ -152,6 +189,7 @@ class AdminUpdate extends Component{
                 {
                     this.state.data.map((i,index) => 
                         (
+                        <div className="BorderBox">
                         <div className='MainBox'>
                             <div className='NameBox'>{i.name}</div>
 
@@ -166,7 +204,20 @@ class AdminUpdate extends Component{
                                     <AiOutlineArrowUp/>
                                 </div>
                             </div>
+                        </div> 
+                        <div className="SubBox">
+                                <div className="NameSubBox">New Stock</div>
+                                <div className="UpdateBox">
+                                <div className='TextBox'>
+                                    <input type="number" name='stockQuantity' onChange={this.onNewStockChange(index)} className='InputField'/>
+                                </div>
+                                </div>
+                        </div> 
+                        <div className="SubBox">
+                                <div className="NameSubBox">Last Updated Stock</div>
+                                <div className="UpdateInSubBox">{i.prevStock}</div>
                         </div>
+                        </div>                     
                         )
                     )
                 }
